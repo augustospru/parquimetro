@@ -15,13 +15,13 @@ app.use(cors({
 }));
 
 app.get('/OneRandom', async (_, res) => {
-  console.log("foi")
   const result = await db.getOneRandom();
+  console.log(result.dataIni)
+  console.log(new Date((new MongoDB.Timestamp(result.dataIni)).getHighBits() * 1000))
   res.status(200).json(result);
 })
 
 app.get('/lista', async (_, res) => {
-  console.log("foi")
   const results = await db.getAll();
   res.status(200).json(results);
 })
