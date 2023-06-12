@@ -1,60 +1,8 @@
-// websockets server
-const axios = require("axios");
-const io = require("socket.io")(10000, {
-  cors: {
-    origin: '*'
-  }
-});
-
-console.log("Servidor WS iniciado na porta 10000");
-
-io.on('connection', (socket) => {
-  console.log(socket.id + ' user connected');
-  axios.request('http://localhost:4000/palavra').then((response) => {
-      console.log(response.data);
-
-      socket.nchar = response.data.word.length;
-      socket.word = response.data.word.toLowerCase();
-      socket.temptatives = socket.nchar+3;
-      socket.state = `[_${",_".repeat(socket.nchar-1)}]`;
-
-      socket.emit('init',
-      { 
-          'word': socket.state + ',' + socket.temptatives, 
-          'hint': response.data.hint
-      });
-  });
-
-  socket.on('temptative', (msg) => {
-      temptative = msg.char.toLowerCase();
-      positions = [];
-      i = -1;
-      while((i=socket.word.indexOf(temptative,i+1)) >= 0) positions.push(i);
-      //console.log(positions);
-
-      if (positions.length == 0) { socket.temptatives--; }
-      else { 
-          positions.forEach(position => {
-              socket.state = socket.state.substring(0, 2*position+1) + temptative + socket.state.substring(2*position+2);
-          });
-      }
-      //console.log({'word': socket.state + ',' + socket.temptatives});
-      socket.emit('word', {'word': socket.state + ',' + socket.temptatives});
-  });
-
-  socket.on('error', (err) =>
-      console.log(err)
-  );
-
-  socket.on('disconnect', () =>
-      console.log('Connection with' + socket.id + ' closed')
-  );
-})
-
 // rest server
 var express     = require('express')
 var app         = express();
 var bodyParser  = require('body-parser');
+var MongoDB = require('mongodb');
 const cors = require('cors');
 const db = require('./database');
 
@@ -66,27 +14,29 @@ app.use(cors({
   origin: '*'
 }));
 
-app.get('/palavra', async (_, res) => {
+app.get('/OneRandom', async (_, res) => {
+  console.log("foi")
   const result = await db.getOneRandom();
   res.status(200).json(result);
 })
 
 app.get('/lista', async (_, res) => {
+  console.log("foi")
   const results = await db.getAll();
   res.status(200).json(results);
 })
 
 app.post('/add', async (req, res) => {
   console.log(req.body);
-  const word = {word: req.body.word, hint: req.body.hint}
-  await db.insertOne(word);
-  res.status(200).json(word);
+  const register = {dataIni: MongoDB.Timestamp.fromString(req.body.dataIni), dataFin: MongoDB.Timestamp.fromString(req.body.dataFin)}
+  await db.insertOne(register);
+  res.status(200).json(register);
 })
 
 app.post('/remove', async (req, res) => {
   console.log(req.body);
-  const word = await db.deleteOne(req.body.id);
-  res.status(200).json(word);
+  const register = await db.deleteOne(req.body.id);
+  res.status(200).json(register);
 })
 
 app.get(/^(.+)$/, function (req, res) {

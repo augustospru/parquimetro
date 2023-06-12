@@ -1,6 +1,6 @@
 const {MongoClient, ObjectId} = require('mongodb');
 
-const uri = "mongodb+srv://augustospru:SnpIWr4XznyqkITB@parquimetro.hfmepsm.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://augustospru:SnpIWr4XznyqkITB@parquimetro.hfmepsm.mongodb.net/Parquimetro?retryWrites=true&w=majority";
 
 let singleton;
 
@@ -25,9 +25,9 @@ async function getOneRandom() {
     return results[rng];
 }
 
-async function insertOne(word) {
+async function insertOne(register) {
     const db = await connect();
-    return await db.collection("Parquimetro").insertOne(word);
+    return await db.collection("Parquimetro").insertOne(register);
 }
 
 async function deleteOne(id) {
