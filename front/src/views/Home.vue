@@ -3,6 +3,7 @@ import HelloWorld from '../components/HelloWorld.vue'
 import TheGame from '../components/theGame.vue'
 import Button from "primevue/button";
 import InputText from 'primevue/inputtext';
+import Calendar from 'primevue/calendar';
 import axios from "axios"
 import { ref } from 'vue';
 import QrcodeVue from 'qrcode.vue'
@@ -23,10 +24,12 @@ const createQRCode = (()  => {
 
 <template>
   <header>
-      <InputText class="InputText" autofocus type="text" v-model="info.dataIni" placeholder="Inicio" minlength="1" v-on:keyup.enter="createQRCode" />
-      <InputText type="text" v-model="info.dataFin" placeholder="Fim" minlength="1" v-on:keyup.enter="createQRCode" />
+    <div class="wrapper">
+      <Calendar class="InputText" dateFormat="dd/mm/yy" autofocus type="text" v-model="info.dataIni" placeholder="Inicio" showTime hourFormat="24" showIcon v-on:keyup.enter="createQRCode" />
+      <Calendar type="text" dateFormat="dd/mm/yy" v-model="info.dataFin" placeholder="Fim" showTime hourFormat="24" showIcon v-on:keyup.enter="createQRCode" />
       <InputText class="InputText" type="text" v-model="info.placa" placeholder="Placa" minlength="1" v-on:keyup.enter="createQRCode" />
       <Button label="Envia" v-on:click="createQRCode" />
+    </div>
   </header>
   
   <main>
@@ -63,7 +66,7 @@ header {
 
   header .wrapper {
     display: flex;
-    place-items: flex-start;
+    min-width: max-content;
     flex-wrap: wrap;
   }
 }
