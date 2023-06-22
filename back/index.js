@@ -50,6 +50,6 @@ app.get(/^(.+)$/, function (req, res) {
   }    
 })
 
-app.listen(4000, function(){
-  console.log('Servidor iniciado na porta 4000');
+app.listen(8000, function(){
+  console.log('Servidor iniciado na porta 8000');
 });

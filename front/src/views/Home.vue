@@ -9,16 +9,13 @@ import { ref } from 'vue';
 import QrcodeVue from 'qrcode.vue'
 
 
-// const word = ref({word: null, hint: null})
 const value = ref(null);
-const info = ref({dataIni: null, dataFin: null, placa: null, id: 37})
+const info = ref({dataIni: "", dataFin: "", placa: "", id: 37})
 const createQRCode = (()  => {
-    // axios.post("http://localhost:10000/add", {word: word.value.word.toLowerCase(), hint: word.value.hint}, {headers: {'content-type': 'application/x-www-form-urlencoded'}})
-    //     .then((res) => words.value.push(res.data));
-    value.value = "inicio: " + info.value.dataIni + ",fim: " + info.value.dataFin + ",placa: " + info.value.placa + ",id: " + info.value.id;
+    axios.post("http://localhost:8000/add", {dataIni: String(info.value.dataIni).replace('-', '/'), dataFin: String(info.value.dataFin).replace('-', '/')}, {headers: {'content-type': 'application/x-www-form-urlencoded'}})
+        .then((res) => console.log(res.data));
+    value.value = "inicio: " + String(info.value.dataIni).replace('-', '/') + ",fim: " + String(info.value.dataFin).replace('-', '/') + ",placa: " + String(info.value.placa) + ",id: " + String(info.value.id);
 })
-
-// axios.get("http://localhost:10000/palavra").then((res) => word.value = res.data)
 
 </script>
 
