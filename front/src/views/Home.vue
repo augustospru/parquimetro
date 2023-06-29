@@ -1,6 +1,4 @@
 <script setup>
-import HelloWorld from '../components/HelloWorld.vue'
-import TheGame from '../components/theGame.vue'
 import Button from "primevue/button";
 import InputText from 'primevue/inputtext';
 import Calendar from 'primevue/calendar';
@@ -10,11 +8,11 @@ import QrcodeVue from 'qrcode.vue'
 
 
 const value = ref(null);
-const info = ref({dataIni: "", dataFin: "", placa: "", id: 37})
+const info = ref({dataIni: "", dataFin: "", placa: "", _id: 37})
 const createQRCode = (()  => {
-    axios.post("http://localhost:8000/add", {dataIni: String(info.value.dataIni).replace('-', '/'), dataFin: String(info.value.dataFin).replace('-', '/')}, {headers: {'content-type': 'application/x-www-form-urlencoded'}})
-        .then((res) => console.log(res.data));
-    value.value = "inicio: " + String(info.value.dataIni).replace('-', '/') + ",fim: " + String(info.value.dataFin).replace('-', '/') + ",placa: " + String(info.value.placa) + ",id: " + String(info.value.id);
+    axios.post("http://localhost:8000/add", {dataIni: String(info.value.dataIni).replace('-', '/'), dataFin: String(info.value.dataFin).replace('-', '/'), placa: String(info.value.placa)}, {headers: {'content-type': 'application/x-www-form-urlencoded'}})
+        .then((res) => {info = res.data; console.log(res.data);});
+    value.value = "inicio: " + String(info.value.dataIni).replace('-', '/') + ",fim: " + String(info.value.dataFin).replace('-', '/') + ",placa: " + String(info.value.placa) + ",id: " + String(info.value._id);
 })
 
 </script>

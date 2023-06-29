@@ -28,7 +28,7 @@ app.get('/lista', async (_, res) => {
 
 app.post('/add', async (req, res) => {
   console.log(req.body);
-  const register = {dataIni: MongoDB.Timestamp.fromString(req.body.dataIni), dataFin: MongoDB.Timestamp.fromString(req.body.dataFin)}
+  const register = {dataIni: MongoDB.Timestamp.fromString(req.body.dataIni), dataFin: MongoDB.Timestamp.fromString(req.body.dataFin), placa: req.body.placa}
   await db.insertOne(register);
   res.status(200).json(register);
 })
