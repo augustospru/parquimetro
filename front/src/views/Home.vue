@@ -19,6 +19,7 @@ const createQRCode = (()  => {
 
 <template>
   <header>
+    <h1>Monte seu horário!</h1>
     <div class="wrapper">
       <Calendar class="InputText" dateFormat="dd/mm/yy" autofocus type="text" v-model="info.dataIni" placeholder="Inicio" showTime hourFormat="24" showIcon v-on:keyup.enter="createQRCode" />
       <Calendar type="text" dateFormat="dd/mm/yy" v-model="info.dataFin" placeholder="Fim" showTime hourFormat="24" showIcon v-on:keyup.enter="createQRCode" />
@@ -53,6 +54,7 @@ header {
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
+    flex-direction: column;
   }
 
   .logo {
