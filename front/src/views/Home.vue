@@ -14,7 +14,7 @@ const createQRCode = (()  => {
     axios.post("http://localhost:8000/add", {dataIni: String(info.value.dataIni).replace('-', '/'), dataFin: String(info.value.dataFin).replace('-', '/'), placa: String(info.value.placa)}, {headers: {'content-type': 'application/x-www-form-urlencoded'}})
         .then((res) => {
           info.value.id = res.data._id; 
-          value.value = String(info.value.id);
+          value.value = "inicio: " + String(info.value.dataIni).replace('-', '/') + ",fim: " + String(info.value.dataFin).replace('-', '/') + ",placa: " + String(info.value.placa) + ",id: " + String(info.value.id);
           valor.value = Math.abs(info.value.dataFin - info.value.dataIni) / 36e5;
         });
     
